@@ -7,12 +7,8 @@
 #' @example x <- "http://www.stat.ubc.ca/~jenny/notOcto/STAT545A/examples/gapminder/data/gapminderDataFiveYear.txt"
 #' data <- read_dataframe(x)
 #' write.table(data)
+#' @rdname common_doc
 #' @export
-
-read_dataframe <- function(x){
-  get_data <- read.delim(x)
-  return(get_data)
-}
 
 write_dataframe <- function(x){
   write.table(x, "written_dataframe.txt", quote = FALSE, sep = "\t", row.names = FALSE)

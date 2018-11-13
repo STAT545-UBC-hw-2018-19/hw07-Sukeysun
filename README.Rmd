@@ -1,33 +1,24 @@
 ---
+title: "My functions in foofactors"
+author: "Sukey"
 output:
-  md_document:
-    variant: markdown_github
+  github_document:
+    toc: yes
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
+# Installtion
+```{r}
+library(dplyr)
+library(devtools)
+# devtools::install_github("STAT545-UBC-students/hw07-Sukeysun")
 ```
 
-**NOTE: This is a toy package created for expository purposes. It is not meant to actually be useful. If you want a package for factor handling, please see [forcats](https://cran.r-project.org/package=forcats).**
+# Functions in foofactor
+Factors are a very useful type of variable in R, but they can also drive you nuts. Especially the "stealth factor" that you think of as character.
 
-### foofactors
+Can we soften some of their sharp edges?
 
-Factors are a very useful type of variable in R, but they can also drive you nuts. This package provides some helper functions for the care and feeding of factors.
-
-### Installation
-
-```{r installation, eval = FALSE}
-devtools::install_github("jennybc/foofactors")
-```
-  
-### Quick demo
-
+## fbind
 Binding two factors via `fbind()`:
 
 ```{r}
@@ -48,7 +39,7 @@ The `fbind()` function glues two factors together and returns factor.
 fbind(a, b)
 ```
 
-Often we want a table of frequencies for the levels of a factor. The base `table()` function returns an object of class `table`, which can be inconvenient for downstream work. Processing with `as.data.frame()` can be helpful but it's a bit clunky.
+Often we want a table of frequencies for the levels of a factor. The base `table()` function returns an object of class `table`, which can be inconvenient for downstream work.  Processing with `as.data.frame()` can be helpful but it's a bit clunky.
 
 ```{r}
 set.seed(1234)
@@ -57,8 +48,82 @@ table(x)
 as.data.frame(table(x))
 ```
 
+## freq_out
+
 The `freq_out()` function returns a frequency table as a well-named `tbl_df`:
 
 ```{r}
 freq_out(x)
 ```
+
+
+## detect_factor
+
+The `detect_factor` function is a function to test whether the factor is character.
+
+```{r}
+x <- c('a', 'b', 'b')
+x_fact <- factor(x)
+y <- c('a', 'b')
+y_fact <- factor(y)
+detect_factor(x_fact)
+detect_factor(y_fact)
+```
+x_fact is  factor while y_fact is character as the length of unique values of y_fact is equal to the length of y_fact
+
+## reorder_factor
+
+The `reorder_factor` returns the input factor in descending order
+```{r}
+x <- c('c', 'b', 'd')
+x_fact <- factor(x)
+y <- c('c','c','d')
+y_fact <- factor(y)
+levels(y) <- c('d','c')
+print("The original order of factor")
+levels(x_fact)
+levels(y_fact)
+print("Reorder the input factor")
+reorder_factor(x_fact)
+reorder_factor(y_fact)
+  
+```
+
+## set_factor
+This function  sets levels to the order in which they appear in the data, i.e. set the levels “as is”
+```{r}
+x <- c("b","c","a")
+x_fact <- factor(x)
+print("The original order of factor")
+levels(x_fact)
+print("Set factor")
+set_factor(x_fact)
+```
+
+The original order of x levles is set in an increasing order. Now the it is set as the sequence that each level appears.
+
+## read_dataframe
+read data frames to plain text delimited files while retaining factor levels
+
+```{r}
+gdURL <- "http://www.stat.ubc.ca/~jenny/notOcto/STAT545A/examples/gapminder/data/gapminderDataFiveYear.txt"
+df <- read_dataframe(gdURL)
+
+
+data.frame( variable = names( df ),
+           classes = sapply( df, class ),
+           factorlevel = sapply( df, nlevels ),
+           first_values = sapply( df, function( x ) paste0( head( x ),  collapse = ", ") ),
+           row.names = NULL ) %>%
+  knitr::kable()
+```
+
+We can see that the country and continent is read as factor.
+
+## write_dataframe
+write data frames to plain text delimited files while retaining factor levels. The dataframe will be named as "written_dataframe.txt"
+```{r}
+df <-  data.frame(x = (c("a","b","c")),y=c("d","e","f"))
+write_dataframe(df)
+```
+
