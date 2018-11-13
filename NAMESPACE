@@ -3,5 +3,6 @@
 export(detect_factor)
 export(fbind)
 export(freq_out)
+export(read_dataframe)
 export(reorder_factor)
 export(set_factor)

@@ -4,11 +4,9 @@
 #' @param  one dataframe or a path
 #' @return returns a data frame readed from files
 #' @usage read_dataframe(), write_dataframe()
-#' @example 
-#' x <- "http://www.stat.ubc.ca/~jenny/notOcto/STAT545A/examples/gapminder/data/gapminderDataFiveYear.txt"
+#' @example x <- "http://www.stat.ubc.ca/~jenny/notOcto/STAT545A/examples/gapminder/data/gapminderDataFiveYear.txt"
 #' data <- read_dataframe(x)
 #' write.table(data)
-
 #' @export
 
 read_dataframe <- function(x){

@@ -1,0 +1,10 @@
+---
+title: "My functions in foofactors"
+author: "Sukey"
+output:
+  github_document:
+    toc: yes
+---
+
+# detect_factor
+This is a function to test whether the factor is character.
